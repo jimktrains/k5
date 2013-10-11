@@ -52,6 +52,10 @@ Basic data types
  - similar to units in real-life
  - sec second
  - msec milisecond
+ - can only be applied to numeric types
+- Symbols
+ - ruby-like
+ - start with :
 
 Example
 
@@ -201,3 +205,75 @@ Example
             main2.main(service: my_service)
         Proc my_proc2:
             main2.main(service: my_service)
+
+Casts
+-----
+
+Examples
+
+    Casts:
+        Int x to CInt:
+            !{Cint(x, 0)}
+
+    class Count:
+        Attributes:
+            Int x
+        Methods:
+            None inc():
+                self.x += 1
+        Casts:
+            to Int:
+                !{self.x}
+            to String:
+                !{"Count: " + (self.x as String)}
+
+Units
+-----
+
+Units are like units in real life.  They make sure that the numeric values we are talking about are measuring/representing the same thing. I feel that units make this easier than having classes for everything and easier to read.
+
+Seconds are pre-defined
+
+SI prefixes become defined for all units:
+
+- yotta 10^24
+- zetta 10^21
+- eksa  10^18
+- peta  10^15
+- tera  10^12
+- giga  10^9 
+- mega  10^6 
+- kilo  10^3 
+- hecto 10^2 
+- deca  10^1
+- decy  10^-1
+- centy 10^-2
+- milli 10^-3
+- mikro 10^-6
+- nano  10^-9
+- pico  10^-12
+- femto 10^-15
+- atto  10^-18
+- zepto 10^-21
+- yokto 10^-24
+
+If one unit has a conversion, it can be done in both directions
+
+Units can be "chained" if they can be converted to each other and the final type
+
+Example
+
+    Unit meter:
+        Conversions:
+            meter: 3.28084
+    Unit feet:
+        Conversions:
+            inch: 12
+    Unit inch:
+       pass
+
+    Meter length
+
+    length = 1 foot 3 inch
+
+    print(length) #=> 0.3809999 Meter
