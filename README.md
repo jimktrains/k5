@@ -130,7 +130,8 @@ Example
         !{$1 % 2 == 0}: {$1 * 2}
         !{True}: !{$1}
     }
-    reduce a by !{$1 + $2} #=> 10
+    reduce a by !{$1 + $2} accumulator 0 #=> 10
+    reduce a by !{$1 > $2 ? $1 : $2} accumulator -1000 #=> 4
 
 Exceptions
 ----------
