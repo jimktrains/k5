@@ -51,7 +51,6 @@ Basic data types
 - Unit
  - similar to units in real-life
  - sec second
- - msec milisecond
  - can only be applied to numeric types
 - Symbols
  - ruby-like
