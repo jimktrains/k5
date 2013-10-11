@@ -14,26 +14,26 @@ Classes
 Basic data types
 * Byte
 * String
-** UTF-8
-** Immutable
+ * UTF-8
+ * Immutable
 * Int
-** 64-bit Signed Integer
+ * 64-bit Signed Integer
 * Decimal
-** 128-bit IEEE 754 Floating point
+ * 128-bit IEEE 754 Floating point
 * APDecimal
-** Arbitrary precision floating point
-* Array<type item>
-* AArray<type key, type item>
-** Associative array/Hash table
-* Func<type return, AArray<string, type> args>
-* Stream<type item>
+ * Arbitrary precision floating point
+* Array{type item}
+* AArray{type key, type item}
+ * Associative array/Hash table
+* Func{type return, AArray{string, type} args}
+* Stream{type item}
 
 Example
 
     module main
     class Counter:
         Attributes:
-            AArray<String, Int>(default:0) cnts
+            AArray{String, Int}(default:0) cnts
         Methods:
             None inc(String name):
                 self.cnts[name] += 1
@@ -70,10 +70,10 @@ Example
 
 Map/Reduce
 
-map <mapable> over <Func>
+map {mapable} over {Func}
 
-map <mapable> with:
-    <conditional>:
-        <method>
+map {mapable} with:
+    {conditional}:
+        {method}
 
-reduce <mapable> by <Func>
+reduce {mapable} by {Func}
