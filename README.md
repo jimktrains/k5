@@ -311,7 +311,7 @@ Example
     print(speed * 4 sec) #=> 4 meter
     print(speed / 4 meter) #=> 0.25 sec^-1
 
-    speed speed * 4 # Compile time error
+    speed = speed * 4 # Compile time error
     length = 1 + 1 meter # Compile time error
     length = 1 sec # Compile time error
 
