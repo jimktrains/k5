@@ -290,4 +290,8 @@ Example
     length = 1 foot 3 inch
 
     print(length) #=> 0.3809999 meter
+    length = 1.453 kilometer
+    print(length) #=> 1453 meter
+    length = 1_453 meter
+    print(length) #=> 1453 meter
     length = 1 sec # Compile time error
