@@ -75,11 +75,28 @@ Example
     print(tc[t]) # 6
 
 Map/Reduce
+----------
 
-map {mapable} over {Func}
+    map {mapable} over {Func}
 
-map {mapable} with:
-    {conditional}:
-        {method}
+    map {mapable} with:
+        {conditional}:
+            {method}
 
-reduce {mapable} by {Func}
+    reduce {mapable} by {Func}
+
+Example
+
+    Array a
+
+    a = [1,2,3,4]
+
+    map a over {$1 * 2} #=> [2,4,6,8]
+
+    map a with: #=> [1,4,3,8]
+        {$1 % 2 == 0}:
+            {$1 * 2}
+        else:
+            {$1}
+
+    reduce a by {$1 += $2} #=> 10
