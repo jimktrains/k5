@@ -80,7 +80,8 @@ Example
                 self.cnts[name] += 2
 
     @module main
-    @inherits Count, DoubleCount
+    @inherits Count
+    @inherits DoubleCount
     class TripleCount:
         Resolve:
             inc as DoubleCount.inc
