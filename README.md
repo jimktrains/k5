@@ -9,15 +9,7 @@ Another goal is to have as much checking being able to happen at compile-type as
 
 I also want to have some basic multiprocessing primitives such as map/reduce and processes in the base language.
 
-
-Modules
-* defined by `module` keyword before a class
-
-Classes
-* Can have multiple inheritance
-
-Currying
-* Methods can be curried.  Any method where named arguments are not passed essentially returns a curried method with the remaining named arguments
+Methods can be curried.  Any method where named arguments are not passed essentially returns a curried method with the remaining named arguments
 
 
 Basic data types
