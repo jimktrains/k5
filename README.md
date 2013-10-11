@@ -223,9 +223,13 @@ Examples
                 self.x += 1
         Casts:
             to Int:
-                !{self.x}
+                return self.x
             to String:
-                !{"Count: " + (self.x as String)}
+                return "Count: " + (self.x as String)
+            from Int y:
+                Count a
+                a.x = y
+                return a
 
 Units
 -----
@@ -265,8 +269,8 @@ Example
 
     Unit meter:
         Conversions:
-            meter: 3.28084
-    Unit feet:
+            foot: 3.28084
+    Unit foot:
         Conversions:
             inch: 12
     Unit inch:
@@ -276,4 +280,5 @@ Example
 
     length = 1 foot 3 inch
 
-    print(length) #=> 0.3809999 Meter
+    print(length) #=> 0.3809999 meter
+    length = 1 sec # Compile time error
