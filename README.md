@@ -1,11 +1,14 @@
 k5
 --
 
-An experimental language to play with some ideas I've had. The goal would be to compile to a mostly-native format.  I'm thinking something more bare-bones than the JVM that just provides some "little" things like memory and process management along with the standard library. However, the runtime should be much lighter than V8/SpiderMonkey or the JVM.  I'm thinking more along the lines of the p-code and m-code (from pascal and modula) VMs.
+An experimental language to play with some ideas I've had. The goal would be to compile to a mostly-native format.  I'm thinking something more bare-bones than the JVM that just provides some "little" things like memory and process management along with the standard library. Functionally, this could be along the lines of a library implementing things such as links to the OS process management and wrappers around malloc and free.
 
-Ideas
-* Static Types
-* Map/Reduce built-ins
+If I can get simple programs to compile to LLVM, I would be more than happy.
+
+Another goal is to have as much checking being able to happen at compile-type as possible. If I can't add a meter to a second, there is no reason I should have to run the program to find that out. To this end, it should be strongly statically typed.
+
+I also want to have some basic multiprocessing primitives such as map/reduce and processes in the base language.
+
 
 Modules
 * defined by `module` keyword before a class
@@ -55,7 +58,7 @@ Example
         Methods:
             None inc(String name):
                 self.cnts[name] += 1
-            Int __getitem__(String name):
+            Int operator[](String name):
                 return self.cnts[name]
 
     @module main
