@@ -12,6 +12,9 @@ Modules
 Classes
 * Can have multiple inheritance
 
+Currying
+* Methods can be curried.  Any method where named arguments are not passed essentially returns a curried method with the remaining named arguments
+
 
 Basic data types
 ----------------
@@ -43,8 +46,12 @@ Basic data types
 - AArray{type key, type item}
  - Associative array/Hash table
 - Func{type return, AArray{string, type} args}
- - {} enclose lambda expressions.
+ - !{} enclose lambda expressions.
 - Stream{type item}
+- Unit
+ - similar to units in real-life
+ - sec second
+ - msec milisecond
 
 Example
 
@@ -113,15 +120,15 @@ Example
 
     a = [1,2,3,4]
 
-    map a over {$1 * 2} #=> [2,4,6,8]
+    map a over !{$1 * 2} #=> [2,4,6,8]
 
     map a with: #=> [1,4,3,8]
-        {$1 % 2 == 0}:
-            {$1 * 2}
+        !{$1 % 2 == 0}:
+            !{$1 * 2}
         else:
-            {$1}
+            !{$1}
 
-    reduce a by {$1 + $2} #=> 10
+    reduce a by !{$1 + $2} #=> 10
 
 Exceptions
 ----------
@@ -151,3 +158,46 @@ Example (Will compile)
         add(2,3)
     catch AddingError e:
         print(e.message)
+
+Processes
+---------
+
+Shared-data Threads are evil.  Share-nothing threads or processes are nice.
+
+Example
+
+    @module main1
+    @inherits process.service
+    class service_runner
+        Attributes:
+            ProcessData pd
+            Int cntr
+        Methods:
+            None __init__(ProcessData pd):
+                self.pd = pd
+            Int counter():
+                self.cntr += 1
+                return self.cntr
+
+    @module main2
+    @inherits process.runnable
+    class main:
+        Attributes:
+            main1.runner serv
+            ProcessData pd
+        Methods:
+            None __init__(ProcessData pd, main1.runner service):
+                self.pd = pd
+                self.serv = service
+            None start():
+                while True:
+                    print("%s: %s" % (self.pd.pid, self.serv.counter()))
+                    sleep(1sec)
+
+    Processes:
+        Proc my_service:
+            main1.service_runner
+        Proc my_proc1:
+            main2.main(service: my_service)
+        Proc my_proc2:
+            main2.main(service: my_service)
