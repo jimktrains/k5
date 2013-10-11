@@ -1,3 +1,7 @@
+k5
+--
+An experimental language to play with some ideas I've had.
+
 Ideas
 * Static Types
 * Map/Reduce built-ins
@@ -8,10 +12,12 @@ Modules
 Classes
 * Can have multiple inheritance
 
-`None` is both a type and the only value of that type
-`Bool` is a type where `True` and `False` are the only values
 
 Basic data types
+* None
+ * `None` is the only value
+* Bool
+ *  `True` and `False` are the only values
 * Byte
 * String
  * UTF-8
