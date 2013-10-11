@@ -94,7 +94,7 @@ Map/Reduce built-ins differ from `for` loops because map/Reduce calls may be par
 
     map {mapable} over {Func}
 
-Maps each item in the mapable through the function returning [Func(mappable[0])...]
+Maps each item in the mapable through the function returning [Func(mappable0)] () (Hmm, to satisfy my editors need to make []() a link
 
 
     map {mapable} with:
@@ -196,7 +196,10 @@ Example
                 self.serv = service
             None start():
                 while True:
-                    print("%s: %s" % (self.pd.pid, self.serv.counter()))
+                    try:
+                        print("%s: %s" % (self.pd.pid, self.serv.counter()))
+                    catch ProcessFail e:
+                        print(e)
                     sleep(1sec)
 
     Processes:
@@ -206,6 +209,28 @@ Example
             main2.main(service: my_service)
         Proc my_proc2:
             main2.main(service: my_service)
+
+So, the way this is set up, it may be possible to run processes on other machines this would, more than likely be highly runtime-dependent.  Assuming a system similar to MPI hostsfile and that the user has host- or user- keys already distributed, something like the following could be done.
+
+Hostfile:
+
+    compy1:2
+    compy2:1
+    compy3:4
+
+Program (same service and runnable defs as above)
+
+    Processes:
+        @Remote
+        @MinCores 2
+        Proc my_service:
+            main1.service_runner
+        Proc my_proc1:
+            main2.main(service: my_service)
+        Proc my_proc2:
+            main2.main(service: my_service)
+
+This will place `my_service` on compy1 or compy2.  Since the service is just a class, it is free to spawn other services or use map/reduce methods that can be parallelize.
 
 Casts
 -----
