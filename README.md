@@ -121,7 +121,7 @@ Example
         else:
             {$1}
 
-    reduce a by {$1 += $2} #=> 10
+    reduce a by {$1 + $2} #=> 10
 
 Exceptions
 ----------
