@@ -1,6 +1,7 @@
 k5
 --
-An experimental language to play with some ideas I've had.
+
+An experimental language to play with some ideas I've had. The goal would be to compile to a mostly-native format.  I'm thinking something more bare-bones than the JVM that just provides some "little" things like memory and process management along with the standard library.
 
 Ideas
 * Static Types
