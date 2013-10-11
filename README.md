@@ -14,6 +14,7 @@ Classes
 
 
 Basic data types
+----------------
 * None
  * `None` is the only value
 * Bool
@@ -22,21 +23,32 @@ Basic data types
 * String
  * UTF-8
  * Immutable
-* Int
- * 64-bit Signed Integer
-* Decimal
- * 128-bit IEEE 754 Floating point
-* APDecimal
- * Arbitrary precision floating point
+* Numeric
+ * Int
+  * 64-bit Signed Integer
+ * Decimal
+  * 128-bit IEEE 754 Floating point
+ * APDecimal
+  * Arbitrary precision floating point
+ * CInt
+  * Complex Int
+  * 2 Ints
+ * CDecimal
+  * Complex Decimals
+  * 2 Decimals
+ * CAPDecimal
+  * Complex Arbitrary Precision Floating Point
+  * 2 APDecimal
 * Array{type item}
 * AArray{type key, type item}
  * Associative array/Hash table
 * Func{type return, AArray{string, type} args}
+ * {} enclose lambda expressions.
 * Stream{type item}
 
 Example
 
-    module main
+    @module main
     class Counter:
         Attributes:
             AArray{String, Int}(default:0) cnts
@@ -46,16 +58,18 @@ Example
             Int __getitem__(String name):
                 return self.cnts[name]
 
-    module main
-    class DoubleCount inherits Count:
+    @module main
+    @inherits Count
+    class DoubleCount:
         Methods:
             None inc(String name):
                 self.cnts[name] += 1
             None inc2(String name):
                 self.cnts[name] += 2
 
-    module main
-    class TripleCount inherits Count, DoubleCount:
+    @module main
+    @inherits Count, DoubleCount
+    class TripleCount:
         Resolve:
             inc as DoubleCount.inc
         Methods:
@@ -76,14 +90,22 @@ Example
 
 Map/Reduce
 ----------
+Map/Reduce built-ins differ from `for` loops because map/Reduce calls may be parallelize and may not modify any variable not declared in the Func.
 
     map {mapable} over {Func}
+
+Maps each item in the mapable through the function returning [Func(mappable[0])...]
+
 
     map {mapable} with:
         {conditional}:
             {method}
 
+Similar to `map`, but may executes different functions for each element depending on the conditional
+
     reduce {mapable} by {Func}
+
+Reduces the mapable by sending each element through the function as well as the accumulator (which d
 
 Example
 
@@ -100,3 +122,32 @@ Example
             {$1}
 
     reduce a by {$1 += $2} #=> 10
+
+Exceptions
+----------
+
+All thrown Exceptions must be declared and handled
+
+Exception class need not be defined ahead of time. They will automatically be generated and inherit from exception
+
+Example (Won't compile)
+
+    Funcs:
+        None add(Int x, Int y):
+            if x == 2:
+                throw AddingError("I don't like adding 2s!")
+
+    add(2,3)
+
+Example (Will compile)
+
+    Funcs:
+        @throws AddingError
+        None add(Int x, Int y):
+            if x == 2:
+                throw AddingError("I don't like adding 2s!")
+
+    try:
+        add(2,3)
+    catch AddingError e:
+        print(e.message)
