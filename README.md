@@ -291,7 +291,7 @@ Example
     Unit inch:
        pass
 
-    Meter length
+    meter length
 
     length = 1 foot 3 inch
 
