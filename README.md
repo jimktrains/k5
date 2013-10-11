@@ -173,7 +173,7 @@ Example
             ProcessData pd
             Int cntr
         Methods:
-            None __init__(ProcessData pd):
+            None __init__(ProcessData processdata):
                 self.pd = pd
             Int counter():
                 self.cntr += 1
@@ -186,7 +186,7 @@ Example
             main1.runner serv
             ProcessData pd
         Methods:
-            None __init__(ProcessData pd, main1.runner service):
+            None __init__(ProcessData processdata, main1.service_runner service):
                 self.pd = pd
                 self.serv = service
             None start():
