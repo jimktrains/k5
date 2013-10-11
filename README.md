@@ -278,6 +278,8 @@ If one unit has a conversion, it can be done in both directions
 
 Units can be "chained" if they can be converted to each other and the final type
 
+Units can be composed via * and / to form complex units
+
 Example
 
     Unit meter:
@@ -298,6 +300,19 @@ Example
     print(length) #=> 1453 meter
     length = 1_453 meter
     print(length) #=> 1453 meter
+
+    length = 1 meter
+    print(length) #=> 1 meter
+    print(2 * length)  #=> 2 meter
+    print(length * length)  #=> 1 meter^2
+    meter/sec speed
+    speed = 1 meter/sec
+    print(speed) #=> 1 meter / sec
+    print(speed * 4 sec) #=> 4 meter
+    print(speed / 4 meter) #=> 0.25 sec^-1
+
+    speed speed * 4 # Compile time error
+    length = 1 + 1 meter # Compile time error
     length = 1 sec # Compile time error
 
 Tables as Functions
