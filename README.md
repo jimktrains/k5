@@ -303,32 +303,32 @@ Example
 Tables as Functions
 -------------------
 
-typedef Set(:begin, :middle, :end) as states
 
 ~ means that it can be any valid member of the set
 
 Returning None will cause an `InvalidArgument` exception to be raised. This needs to be shown like any other exception.
 
-Funcs:
-    @throws InvalidArgument
-    ~states Transition(~states s):
-        | s      | return  |
-        +--------+---------+
-        | :begin | :middle |
-        | :middle| :end    |
-        | :end   | None    |
+    typedef Set(:begin, :middle, :end) as states
+    Funcs:
+        @throws InvalidArgument
+        ~states Transition(~states s):
+            | s      | return  |
+            +--------+---------+
+            | :begin | :middle |
+            | :middle| :end    |
+            | :end   | None    |
 
-    Bool Final?(~states s):
-        | s      | return  |
-        +--------+---------+
-        | :begin | False   |
-        | :middle| False   |
-        | :end   | True    |
+        Bool Final?(~states s):
+            | s      | return  |
+            +--------+---------+
+            | :begin | False   |
+            | :middle| False   |
+            | :end   | True    |
 
-    try:
-        Transition(:begin) #=> :middle
-    catch InvalidArgument  e:
-        pass
+        try:
+            Transition(:begin) #=> :middle
+        catch InvalidArgument  e:
+            pass
 
-    Final(:middle) #=> False
-    Final(:end) #=> True
+        Final(:middle) #=> False
+        Final(:end) #=> True
