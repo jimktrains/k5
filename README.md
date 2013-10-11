@@ -132,6 +132,8 @@ Example
     }
     reduce a by !{$1 + $2} accumulator 0 #=> 10
     reduce a by !{$1 > $2 ? $1 : $2} accumulator -1000 #=> 4
+    sum = !{reduce $1 by !{$1 + $2} accumulator 0}
+    sum(a) #=> 10
 
 Exceptions
 ----------
