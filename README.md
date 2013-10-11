@@ -126,12 +126,10 @@ Example
 
     map a over !{$1 * 2} #=> [2,4,6,8]
 
-    map a with: #=> [1,4,3,8]
-        !{$1 % 2 == 0}:
-            !{$1 * 2}
-        else:
-            !{$1}
-
+    map a with { #=> [1,4,3,8]
+        !{$1 % 2 == 0}: {$1 * 2}
+        !{True}: !{$1}
+    }
     reduce a by !{$1 + $2} #=> 10
 
 Exceptions
@@ -149,6 +147,17 @@ Example (Won't compile)
                 throw AddingError("I don't like adding 2s!")
 
     add(2,3)
+
+Example (Won't compile)
+
+    Funcs:
+        @throws AddingError
+        None add(Int x, Int y):
+            if x == 2:
+                throw AddingError("I don't like adding 2s!")
+
+    add(2,3)
+
 
 Example (Will compile)
 
@@ -213,7 +222,7 @@ Examples
 
     Casts:
         Int x to CInt:
-            !{Cint(x, 0)}
+            return Cint(x, 0)
 
     class Count:
         Attributes:
