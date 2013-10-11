@@ -23,28 +23,16 @@ Basic data types
 - Bool
  -  `True` and `False` are the only values
 - Byte
-- String
- - UTF-8
- - Immutable
+- String - UTF-8, Immutable
 - Numeric
- - Int
-  - 64-bit Signed Integer
- - Decimal
-  - 128-bit IEEE 754 Floating point
- - APDecimal
-  - Arbitrary precision floating point
- - CInt
-  - Complex Int
-  - 2 Ints
+ - Int - 64-bit Signed Integer
+ - Decimal - 128-bit IEEE 754 Floating point
+ - APDecimal - Arbitrary precision floating point
+ - CInt 
  - CDecimal
-  - Complex Decimals
-  - 2 Decimals
  - CAPDecimal
-  - Complex Arbitrary Precision Floating Point
-  - 2 APDecimal
 - Array{type item}
-- AArray{type key, type item}
- - Associative array/Hash table
+- AArray{type key, type item} - Associative array/Hash table
 - Func{type return, AArray{string, type} args}
  - !{} enclose lambda expressions.
 - Stream{type item}
@@ -226,7 +214,7 @@ Examples
 
     Casts:
         Int x to CInt:
-            return Cint(x, 0)
+            return x + 0i
 
     class Count:
         Attributes:
