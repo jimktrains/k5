@@ -43,6 +43,10 @@ To define a function a signature and body are given (It can optionally be assign
     Inc <= `{n as Integer} -> n1 as Integer`:
         n1 <= n + 1
 
+The type of a composite function can be calculated
+
+    add_two := Inc { n => Inc }
+
 Notice that the parameters are named.
 
 Not the preferred style
