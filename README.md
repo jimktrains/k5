@@ -327,11 +327,11 @@ All elements of the set need to be defined
         | :end   | :end    |
 
     final? <= `{s as ~states} => Bool`:
-            | s      | return  |
-            +--------+---------+
-            | :begin | False   |
-            | :middle| False   |
-            | :end   | True    |
+        | s      | return  |
+        +--------+---------+
+        | :begin | False   |
+        | :middle| False   |
+        | :end   | True    |
 
     transition(:begin) #=> :middle
     final?(:middle) #=> False
