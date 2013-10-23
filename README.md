@@ -1,5 +1,4 @@
-k5
------
+# k5
 
 An experimental language to play with some ideas I've had. The goal would be to compile to a mostly-native format.  I'm thinking something more bare-bones than the JVM that just provides some "little" things like memory and process management along with the standard library. Functionally, this could be along the lines of a library implementing things such as links to the OS process management and wrappers around malloc and free.
 
@@ -9,27 +8,46 @@ Another goal is to have as much checking being able to happen at compile-type as
 
 Basic multiprocessing primitives are also a goal for later, but I'm trying to design the language around that goal.
 
+## Records
+
+Records are a basic tool in k5.  The can be declared in two ways. The first uses indention, like python
+
     Person as {:
         fname as String
         lname as String
         age as Integer
 
+and the second is a more traditional comma-separated list
+
+    Person as { fname as String, lname as String, age as Integer }
+
+To create a record, to call a method, lets say there are analogous ways
+
+    {:
+        fname => "Me"
+        lname => "Surname"
+        age => 0
+
+and
+
+    { fname => "Me", lname => "Surname", age => 0 }
+
+Functions
+---------
+
+To define a function a signature and body are given (It can optionally be assigned to a variable)
+
     Born <= `{fname as String, lname as String} -> new_person as Person`:
         new_person <= Person {fname => fname, lname => lname, age => 0}
-
-    Cast Person as String `{_self as Person} -> s as String`:
-        s <= _self.fname << " " << _self.lname << " (Age: " << _self.age << ")"
 
     Inc <= `{n as Integer} -> n1 as Integer`:
         n1 <= n + 1
 
-    add_two as `{n as Integer} -> n1 as Integer`
-    add_two := Inc { n => Inc { n => n } }
+Notice that the parameters are named.
 
 Not the preferred style
-Done only to illustrate the
+Done only to illustrate the {} vs {: syntax
 
-{} vs {: ability
     Age <= `{:
         person as Person
      -> older_person as Person`:
@@ -37,7 +55,18 @@ Done only to illustrate the
             person + {:
                 age => Inc {n => person.age}
 
+## Casts
+
+We can define casts from type to type as well. (Note, to use Print you need to have a record -> string method defined
+
+    Cast Person as String `{_self as Person} -> s as String`:
+        s <= _self.fname << " " << _self.lname << " (Age: " << _self.age << ")"
+
+## Simple assignments
+
     Print {msg: Type of Born } # => {fname as String, lname as String} -> new_person as Person
+
+Note the currying!
 
     keener_born <= Born { lname => "Keener" }
 
@@ -45,11 +74,17 @@ Done only to illustrate the
 
     p <= keener_born { fname => "Jim" }
 
+A variable can never be modified.
+
     p <= keener_born { fname => "Jan" } # Error, p is defined
+    p.age <= 0 # Error, p.age is already defined
+
+## Functional
+
+### Fold
 
 Folds apply a function to a running accumulator and 
-a value from the list.
-Folds cannot be parralelized 
+a value from the list. Folds cannot be parallelized 
 
     four_yr_old <= Fold {:
         list => [0..3]
@@ -62,6 +97,8 @@ Folds cannot be parralelized
                 then => Print { msg: "Oh noez! He's Terrible!" }
                 else => Print { msg: _racc }
 
+### Map
+
 Maps apply a function to each element of an array, returning an array
 Maps may be parallelized
 
@@ -70,11 +107,13 @@ Maps may be parallelized
         over => `{_item as Integer} -> _ret as Integer`:
             _ret <= add_two(_item)
 
-Alternativly we could have done
+Alternatively we could have done
 
     two_to_seven <= add_two { n: [1..5] } # (Except we'd have to give it a different name;)
 
-and the map is done implicetly
+and the map is done implicitly
+
+### Reduce
 
 Reduce works by applying the function over each slice of 2 of 
 params in the by function of the array or a value from a previous
@@ -120,8 +159,10 @@ One possible path of reduction could be
                       min
 
 
+### Filter
+
 We can also filter lists
-The following returns [2,4]
+The following returns \[2,4\]
 Filters may be parallelized
 
     evens <= Filter {:
@@ -130,7 +171,7 @@ Filters may be parallelized
             _ret <= _item % 2 = 0
 
 Contrived example of nesting
-returns [4,8]
+returns \[4,8\]
 
     double_evens <= Map {:
         list => Filter {:
