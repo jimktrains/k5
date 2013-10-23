@@ -88,7 +88,8 @@ A variable can never be modified.
 ### Fold
 
 Folds apply a function to a running accumulator and 
-a value from the list. Folds cannot be parallelized 
+a value from the list. Folds cannot be parallelized.
+Note the long form of a lambda.
 
     four_yr_old <= Fold {:
         list => [0..3]
@@ -111,12 +112,11 @@ This would print:
 ### Map
 
 Maps apply a function to each element of an array, returning an array
-Maps may be parallelized
+Maps may be parallelized. Note the short form of the lambda; this can be used for simple expressions.
 
     two_to_seven <= Map {:
         list => [1..5]
-        over => `{_item as Integer} -> _ret as Integer`:
-            _ret <= add_two {n: _item}
+        over => add_two {n: _item}
 
 If we don't want to make the param for add_two \_item1, then we could do:
  
@@ -149,6 +149,14 @@ Reduces may be parallelized
                 test => _item1 < _item2
                 then => _item1
                 else => _item2
+
+    one <= Reduce {:
+        list => [1..5]
+        by => If {:
+                test => _item1 < _item2
+                then => _item1
+                else => _item2
+
     one <= Reduce {:
         list => [1..5]
         by => Min
@@ -212,8 +220,7 @@ Filters may be parallelized
 
     evens <= Filter {:
         list => [1..5]
-        by => `{_item1 as Integer} -> _ret as Bool`:
-            _ret <= _item % 2 = 0
+        by => item % 2 = 0
 
 Contrived example of nesting
 returns \[4,8\].
@@ -221,7 +228,5 @@ returns \[4,8\].
     double_evens <= Map {:
         list => Filter {:
             list => [1..5]
-            by => `{_item1 as Integer} -> _ret as Bool`:
-                _ret <= _item % 2 = 0
-        over: `{_item as Integer} -> _ret as Integer`:
-            _ret <= _item * 2
+            by => item % 2 = 0
+        over: item * 2
