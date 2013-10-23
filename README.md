@@ -230,3 +230,109 @@ returns \[4,8\].
             list => [1..5]
             by => item % 2 = 0
         over: item * 2
+
+## Units
+
+Units are like units in real life.  They make sure that the numeric values we are talking about are measuring/representing the same thing. I feel that units make this easier than having classes for everything and easier to read.
+
+Seconds are pre-defined
+
+SI prefixes become defined for all units:
+
+- yotta 10^24
+- zetta 10^21
+- eksa  10^18
+- peta  10^15
+- tera  10^12
+- giga  10^9 
+- mega  10^6 
+- kilo  10^3 
+- hecto 10^2 
+- deca  10^1
+- decy  10^-1
+- centy 10^-2
+- milli 10^-3
+- mikro 10^-6
+- nano  10^-9
+- pico  10^-12
+- femto 10^-15
+- atto  10^-18
+- zepto 10^-21
+- yokto 10^-24
+
+If one unit has a conversion, it can be done in both directions
+
+Units can be "chained" if they can be converted to each other and the final type
+
+Units can be composed via * and / to form complex units
+
+Example
+
+    meter as a Unit {:
+        foot => 3.28084
+    foot as a Unit {:
+        inch => 12
+    inch as a Unit
+
+    length as meter
+
+    length := 1_foot_3_inch
+
+    Print {msg: length } #=> 0.3809999 meter
+    length2 := 1.453_kilometer
+    Print {msg: length } #=> 1453 meter
+    length3 := 1_453_meter
+    Print {msg: length } #=> 1453 meter
+
+    length4 := 1meter
+    Print {msg: length4 } #=> 1 meter
+    Print {msg: 2 * length4 }  #=> 2 meter
+    Print {msg: length4 * length4 }  #=> 1 meter^2
+
+    speed as meter/sec
+    speed := 1 meter/sec
+    Print {msg: speed } #=> 1 meter / sec
+    Print {msg: speed * 4_sec } #=> 4 meter
+    Print {msg: speed / 4_meter } #=> 0.25 sec^-1
+
+    length5 := 1 + 1_meter # Compile time error
+    length6 := 1_sec # Compile time error
+
+## Tables as Functions
+
+~ means that it can be any valid member of the set
+
+All elements in a set must be represented in the table
+
+### Example (Won't compile)
+
+    states as Set [:begin, :middle, :end]
+    transition <= `{s as ~states} -> ~states s`:
+        | s      | return  |
+        +--------+---------+
+        | :begin | :middle |
+        | :middle| :end    |
+
+All elements of the set need to be defined
+
+
+### Example (Will compile)
+
+    states as Set [:begin, :middle, :end]
+    transition <= `{s as ~states} -> ~states s`:
+        | s      | return  |
+        +--------+---------+
+        | :begin | :middle |
+        | :middle| :end    |
+        | :end   | :end    |
+
+    final? <= `{s as ~states} => Bool`:
+            | s      | return  |
+            +--------+---------+
+            | :begin | False   |
+            | :middle| False   |
+            | :end   | True    |
+
+    transition(:begin) #=> :middle
+    final?(:middle) #=> False
+    final?(:end) #=> True
