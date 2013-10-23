@@ -59,7 +59,7 @@ Done only to illustrate the {} vs {: syntax
 
 We can define casts from type to type as well. (Note, to use Print you need to have a record -> string method defined
 
-    Cast Person as String `{_self as Person} -> s as String`:
+    Cast Person as String <= `{_self as Person} -> s as String`:
         s <= _self.fname << " " << _self.lname << " (Age: " << _self.age << ")"
 
 ## Simple assignments
@@ -96,6 +96,14 @@ a value from the list. Folds cannot be parallelized
                 test => _racc.age = 2
                 then => Print { msg: "Oh noez! He's Terrible!" }
                 else => Print { msg: _racc }
+
+This would print:
+
+    Jim Keener (Age: 1)
+    Oh noez! He's Terrible!
+    Jim Keener (Age: 2)
+    Jim Keener (Age: 3)
+    Jim Keener (Age: 4)
 
 ### Map
 
@@ -162,7 +170,7 @@ One possible path of reduction could be
 ### Filter
 
 We can also filter lists
-The following returns \[2,4\]
+The following returns \[2,4\].
 Filters may be parallelized
 
     evens <= Filter {:
@@ -171,7 +179,7 @@ Filters may be parallelized
             _ret <= _item % 2 = 0
 
 Contrived example of nesting
-returns \[4,8\]
+returns \[4,8\].
 
     double_evens <= Map {:
         list => Filter {:
