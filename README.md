@@ -116,7 +116,15 @@ Maps may be parallelized
     two_to_seven <= Map {:
         list => [1..5]
         over => `{_item as Integer} -> _ret as Integer`:
-            _ret <= add_two(_item)
+            _ret <= add_two {n: _item}
+
+If we don't want to make the param for add_two \_item1, then we could do:
+ 
+    two_to_seven <= Map {:
+        list => [1..5]
+        over => add_two {n: _item}
+
+And since it's all statically typed we can verify that this'll work out.
 
 Alternatively we could have done
 
