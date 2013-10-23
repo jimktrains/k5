@@ -101,7 +101,6 @@ This would print:
 
     Jim Keener (Age: 1)
     Oh noez! He's Terrible!
-    Jim Keener (Age: 2)
     Jim Keener (Age: 3)
     Jim Keener (Age: 4)
 
