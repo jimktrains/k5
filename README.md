@@ -161,12 +161,12 @@ One possible path of reduction could be
      \       /          \       /         /
       \     /            \     /         /
        \   /              \   /         /
-        min                min         /
+        min(1,2)->1        min(3,4)->3 /
          \                  \         /
           \                  \       /
            \                  \     /
             \                  \   /
-             \                  min
+             \                  min(3,5) -> 3
               \                 /
                \               /
                 \             /
@@ -175,7 +175,33 @@ One possible path of reduction could be
                    \       /
                     \     /
                      \   /
-                      min
+                      min(1,3)->1
+
+Note that we could do sums this way too (instead of a fold). This gains us the ability to parallelize it as well
+
+    fifteen <= Reduce { list => [1..5], by => Sum }
+
+One possible path of reduction could be
+
+    1         2        3         4         5
+     \       /          \       /         /
+      \     /            \     /         /
+       \   /              \   /         /
+        sum(1,2)->3        sum(3,4)->7 /
+         \                  \         /
+          \                  \       /
+           \                  \     /
+            \                  \   /
+             \                  sum(7,5) -> 12
+              \                 /
+               \               /
+                \             /
+                 \           /
+                  \         /
+                   \       /
+                    \     /
+                     \   /
+                      sum(3,12)->15
 
 
 ### Filter
