@@ -118,11 +118,11 @@ Maps may be parallelized. Note the short form of the lambda; this can be used fo
         list => [1..5]
         over => add_two {n: _item}
 
-If we don't want to make the param for add_two \_item1, then we could do:
+If we make the param for add_two \_item1, then we could do:
  
     two_to_seven <= Map {:
         list => [1..5]
-        over => add_two {n: _item}
+        over => add_two
 
 And since it's all statically typed we can verify that this'll work out.
 
@@ -140,7 +140,9 @@ invocation until there are no more values left. All values are only
 processed a single time
 
 For example, the following calls reduce the list to the min of the list
-Reduces may be parallelized
+Reduces may be parallelized.
+
+Long form lambda:
 
     one <= Reduce {:
         list => [1..5]
@@ -150,12 +152,16 @@ Reduces may be parallelized
                 then => _item1
                 else => _item2
 
+Short form lambda (since it's a single expression)
+
     one <= Reduce {:
         list => [1..5]
         by => If {:
                 test => _item1 < _item2
                 then => _item1
                 else => _item2
+
+Or use the built-in min function
 
     one <= Reduce {:
         list => [1..5]
@@ -307,7 +313,7 @@ All elements in a set must be represented in the table
 ### Example (Won't compile)
 
     states as Set [:begin, :middle, :end]
-    transition <= `{s as ~states} -> ~states s`:
+    transition <= `{s as ~states} -> return as ~states`:
         | s      | return  |
         +--------+---------+
         | :begin | :middle |
@@ -319,14 +325,14 @@ All elements of the set need to be defined
 ### Example (Will compile)
 
     states as Set [:begin, :middle, :end]
-    transition <= `{s as ~states} -> ~states s`:
+    transition <= `{s as ~states} -> return as ~states`:
         | s      | return  |
         +--------+---------+
         | :begin | :middle |
         | :middle| :end    |
         | :end   | :end    |
 
-    final? <= `{s as ~states} => Bool`:
+    final? <= `{s as ~states} => return as Bool`:
         | s      | return  |
         +--------+---------+
         | :begin | False   |
@@ -336,3 +342,41 @@ All elements of the set need to be defined
     transition(:begin) #=> :middle
     final?(:middle) #=> False
     final?(:end) #=> True
+
+
+## Language built-ins
+
+### Base Types
+
+* None
+* Symbol
+* Bool
+* Numeric
+ * Integer
+ * Decimal
+* String
+* List
+* Set
+* Record
+
+### Functions
+
+#### Utility
+
+Note: Working on how to do this based on a "Comparable" type. Perhaps it could be done based
+on operator definitions?
+
+    Min <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
+    Max <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
+    Sum <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
+    Prod <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
+    Print <= `{msg as String}->None`
+
+#### Functional
+
+The @ before an identifier represents that the identifier is an unknown type.  Essentially it's similar to templates in Java.
+
+    Fold <= `{list => @x[], init => @x, over => `{_item as @x, _accum as @x} -> @x` } -> @x[]`
+    Map <= `{list => @x[], over => `{_item as @x } -> @x` } -> @x[]`
+    Reduce <= `{list => @x[], by => `{_item1 as @x, _item2 as @x } -> @x` } -> @x `
+    Filter <= `{list => @x[], by => `{_item as @x } -> Bool`} -> @x[]`
