@@ -274,9 +274,9 @@ Units can be composed via * and / to form complex units
 
 Example
 
-    meter as a Unit
-    foot as a Unit {:
+    meter as a Unit {:
         foot => 3.28084
+    foot as a Unit {:
         inch => 12
     inch as a Unit
 
