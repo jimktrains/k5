@@ -67,13 +67,13 @@ We can define casts from type to type as well. (Note, to use Print you need to h
 
 ## Simple assignments
 
-    Print {msg: Type of Born } # => {fname as String, lname as String} -> new_person as Person
+    Print {msg: Type of Born } # => {fname as String, lname as String} -> Person
 
 Note the currying!
 
     keener_born <= Born { lname => "Keener" }
 
-    Print {msg: Type of keener_born } # => {fname as String} -> new_person as Person
+    Print {msg: Type of keener_born } # => {fname as String} -> Person
 
     p <= keener_born { fname => "Jim" }
 
@@ -379,3 +379,4 @@ The @ before an identifier represents that the identifier is an unknown type.  E
     Map <= `{list => @x[], over => `{_item as @x } -> @y` } -> @y[]`
     Reduce <= `{list => @x[], by => `{_item1 as @x, _item2 as @x } -> @x` } -> @x `
     Filter <= `{list => @x[], by => `{_item as @x } -> Bool`} -> @x[]`
+
