@@ -1,6 +1,6 @@
 # k5
 
-An experimental language to play with some ideas I've had. My 1st goal is to simply get this to work as an interpreted language. From there I think it would be a good exercise to try to get it to compile via LLVM.
+An experimental language to play with some ideas I've had. My 1st goal is to simply get this to work as an interpreted language. 
 
 
 Another goal is to have as much checking being able to happen at compile-type as possible. If I can't add a meter to a second, there is no reason I should have to run the program to find that out. To this end, it should be strongly statically typed.
