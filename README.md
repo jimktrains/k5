@@ -375,7 +375,7 @@ on operator definitions?
 
 The @ before an identifier represents that the identifier is an unknown type.  Essentially it's similar to templates in Java.
 
-    Fold <= `{list => @x[], init => @x, over => `{_item as @x, _accum as @x} -> @x` } -> @x[]`
-    Map <= `{list => @x[], over => `{_item as @x } -> @x` } -> @x[]`
+    Fold <= `{list => @x[], init => @y, over => `{_item as @x, _accum as @y} -> @y` } -> @y`
+    Map <= `{list => @x[], over => `{_item as @x } -> @y` } -> @y[]`
     Reduce <= `{list => @x[], by => `{_item1 as @x, _item2 as @x } -> @x` } -> @x `
     Filter <= `{list => @x[], by => `{_item as @x } -> Bool`} -> @x[]`
