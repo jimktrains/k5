@@ -108,6 +108,9 @@ This would print:
     Jim Keener (Age: 3)
     Jim Keener (Age: 4)
 
+
+`Fold` is an alias for `Foldl` (left-associative fold). `Foldr` is the complimentary right-associative fold. 
+
 ### Map
 
 Maps apply a function to each element of an array, returning an array
@@ -216,6 +219,15 @@ One possible path of reduction could be
                      \   /
                       sum(3,12)->15
 
+Since we can curry, we can do things like
+
+    factorial <= Reduce { list => [1..n], by => Prod }
+
+    Print { msg: Type of factorial } # => {n as Integer} -> Integer
+
+    Print {msg: factorial {n: 5} } #=> 120
+
+Pretty much any commutative and associative operation could be done via a `Reduce` operation. `Reduce` is a tree-like fold.
 
 ### Filter
 
@@ -404,7 +416,10 @@ on operator definitions?
 The @ before an identifier represents that the identifier is an unknown type.  Essentially it's similar to templates in Java.
 
     Fold <= `{list => @x[], init => @y, over => `{_item as @x, _accum as @y} -> @y` } -> @y`
+    Foldl <= `{list => @x[], init => @y, over => `{_item as @x, _accum as @y} -> @y` } -> @y`
+    Foldr <= `{list => @x[], init => @y, over => `{_item as @x, _accum as @y} -> @y` } -> @y`
     Map <= `{list => @x[], over => `{_item as @x } -> @y` } -> @y[]`
     Reduce <= `{list => @x[], by => `{_item1 as @x, _item2 as @x } -> @x` } -> @x `
     Filter <= `{list => @x[], by => `{_item as @x } -> Bool`} -> @x[]`
+
 
