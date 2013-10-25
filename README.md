@@ -271,6 +271,8 @@ Units can be "chained" if they can be converted to each other and the final type
 
 Units can be composed via * and / to form complex units
 
+If conversions are given as a Numeric, then a conversion in both directions is possible. If the conversions are given as an expression, then only that conversion is possible. (Note: Should I invert math expressions?)
+
 Example
 
     meter as a Unit {:
@@ -357,6 +359,33 @@ All elements of the set need to be defined
 * List
 * Set
 * Record
+
+### Units
+
+* Length
+ * meter
+ * foot
+ * inch
+ * yard
+ * mile
+* Time
+ * second
+* Volume
+ * liter
+ * meter^3 (via conversion from liter)
+ * tbs
+ * tsp
+ * oz
+ * cup
+ * pint
+ * quart
+ * pottle
+ * gallon
+* Temperature
+ * fahrenheit
+ * celsius
+ * kelvin
+ 
 
 ### Functions
 
