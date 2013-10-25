@@ -372,7 +372,6 @@ All elements of the set need to be defined
  * second
 * Volume
  * liter
- * meter^3 (via conversion from liter)
  * tbs
  * tsp
  * oz
