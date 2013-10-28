@@ -382,6 +382,9 @@ All elements of the set need to be defined
  * mile
 * Time
  * second
+ * minute
+ * hour
+ * day
 * Volume
  * liter
  * tbs
