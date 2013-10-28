@@ -320,14 +320,14 @@ Example
 
 ## Tables as Functions
 
-~ means that it can be any valid member of the set
+$ means that it can be any valid member of the set
 
 All elements in a set must be represented in the table
 
 ### Example (Won't compile)
 
     states as Set [:begin, :middle, :end]
-    transition <= `{s as ~states} -> return as ~states`:
+    transition <= `{s as $states} -> return as $states`:
         | s      | return  |
         +--------+---------+
         | :begin | :middle |
@@ -339,14 +339,14 @@ All elements of the set need to be defined
 ### Example (Will compile)
 
     states as Set [:begin, :middle, :end]
-    transition <= `{s as ~states} -> return as ~states`:
+    transition <= `{s as $states} -> return as $states`:
         | s      | return  |
         +--------+---------+
         | :begin | :middle |
         | :middle| :end    |
         | :end   | :end    |
 
-    final? <= `{s as ~states} => return as Bool`:
+    final? <= `{s as $states} => return as Bool`:
         | s      | return  |
         +--------+---------+
         | :begin | False   |
