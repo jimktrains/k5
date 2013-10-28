@@ -292,6 +292,9 @@ Example
     inch as Unit
 
     length as a meter
+    length2 as a meter
+    length3 as a meter
+    length4 as a meter
 
     length := 1_foot_3_inch
 
