@@ -256,26 +256,26 @@ Seconds are pre-defined
 
 SI prefixes become defined for all units:
 
-| yotta|10^24|
-| zetta|10^21|
-| eksa |10^18|
-| peta |10^15|
-| tera |10^12|
-| giga |10^9 |
-| mega |10^6 |
-| kilo |10^3 |
-| hecto|10^2 |
-| deca |10^1|
-| decy |10^-1|
-| centy|10^-2|
-| milli|10^-3|
-| mikro|10^-6|
-| nano |10^-9|
-| pico |10^-12|
-| femto|10^-15|
-| atto |10^-18|
-| zepto|10^-21|
-| yokto|10^-24|
+- yotta 10^24
+- zetta 10^21
+- eksa  10^18
+- peta  10^15
+- tera  10^12
+- giga  10^9 
+- mega  10^6 
+- kilo  10^3 
+- hecto 10^2 
+- deca  10^1
+- decy  10^-1
+- centy 10^-2
+- milli 10^-3
+- mikro 10^-6
+- nano  10^-9
+- pico  10^-12
+- femto 10^-15
+- atto  10^-18
+- zepto 10^-21
+- yokto 10^-24
 
 If one unit has a conversion, it can be done in both directions
 
@@ -287,11 +287,13 @@ If conversions are given as a Numeric, then a conversion in both directions is p
 
 Example
 
-    meter as Unit {:
+    meter as a Unit {:
         foot => 3.28084
-    foot as Unit {:
+    foot as a Unit {:
         inch => 12
-    inch as Unit
+    inch as a Unit
+
+    length as meter
 
     length := 1_foot_3_inch
 
@@ -306,6 +308,7 @@ Example
     Print {msg: 2 * length4 }  #=> 2 meter
     Print {msg: length4 * length4 }  #=> 1 meter^2
 
+    speed as meter/sec
     speed := 1 meter/sec
     Print {msg: speed } #=> 1 meter / sec
     Print {msg: speed * 4_sec } #=> 4 meter
