@@ -12,13 +12,13 @@ Basic multiprocessing primitives are also a goal for later, but I'm trying to de
 Records are a basic tool in k5.  The can be declared in two ways. The first uses indention, like python
 
     Person as {:
-        fname as String
-        lname as String
-        age as Integer
+        fname as a String
+        lname as a String
+        age as a Integer
 
 and the second is a more traditional comma-separated list
 
-    Person as { fname as String, lname as String, age as Integer }
+    Person as { fname as a String, lname as a String, age as a Integer }
 
 To create a record, to call a method, lets say there are analogous ways
 
@@ -39,7 +39,7 @@ To define a function a signature and body are given (It can optionally be assign
     Born <= `{fname as String, lname as String} -> new_person as Person`:
         new_person <= Person {fname => fname, lname => lname, age => 0}
 
-    Inc <= `{n as Integer} -> n1 as Integer`:
+    Inc <= `{n as a Integer} -> n1 as Integer`:
         n1 <= n + 1
 
 The type of a composite function can be calculated
@@ -62,18 +62,18 @@ Done only to illustrate the {} vs {: syntax
 
 We can define casts from type to type as well. (Note, to use Print you need to have a record -> string method defined
 
-    Cast Person as String <= `{_self as Person} -> s as String`:
+    Cast Person as String <= `{_self as a Person} -> s as String`:
         s <= _self.fname << " " << _self.lname << " (Age: " << _self.age << ")"
 
 ## Simple assignments
 
-    Print {msg: Type of Born } # => {fname as String, lname as String} -> Person
+    Print {msg: Type of Born } # => {fname as a String, lname as a String} -> Person
 
 Note the currying!
 
     keener_born <= Born { lname => "Keener" }
 
-    Print {msg: Type of keener_born } # => {fname as String} -> Person
+    Print {msg: Type of keener_born } # => {fname as a String} -> Person
 
     p <= keener_born { fname => "Jim" }
 
@@ -93,7 +93,7 @@ Note the long form of a lambda.
     four_yr_old <= Fold {:
         list => [0..3]
         init => p
-        over => `{_acc as Person, _item as Integer} -> _racc as Integer`:
+        over => `{_acc as a Person, _item as a Integer} -> _racc as Integer`:
             _racc <= Age { person => _acc }
             p <= _racc # This is OK because functions create their own, isolated, scope
             If {:
@@ -148,7 +148,7 @@ Long form lambda:
 
     one <= Reduce {:
         list => [1..5]
-        by => `{_item1 as Integer, _item2 as Integer} -> _ret as Integer`:
+        by => `{_item1 as a Integer, _item2 as a Integer} -> _ret as Integer`:
             _ret <= If {:
                 test => _item1 < _item2
                 then => _item1
@@ -223,7 +223,7 @@ Since we can curry, we can do things like
 
     factorial <= Reduce { list => [1..n], by => Prod }
 
-    Print { msg: Type of factorial } # => {n as Integer} -> Integer
+    Print { msg: Type of factorial } # => {n as a Integer} -> Integer
 
     Print {msg: factorial {n: 5} } #=> 120
 
@@ -287,28 +287,28 @@ If conversions are given as a Numeric, then a conversion in both directions is p
 
 Example
 
-    meter as a Unit {:
+    meter as Unit {:
         foot => 3.28084
-    foot as a Unit {:
+    foot as Unit {:
         inch => 12
-    inch as a Unit
+    inch as Unit
 
-    length as meter
+    length as a meter
 
     length := 1_foot_3_inch
 
     Print {msg: length } #=> 0.3809999 meter
     length2 := 1.453_kilometer
-    Print {msg: length } #=> 1453 meter
+    Print {msg: length2 } #=> 1453 meter
     length3 := 1_453_meter
-    Print {msg: length } #=> 1453 meter
+    Print {msg: length3 } #=> 1453 meter
 
     length4 := 1meter
     Print {msg: length4 } #=> 1 meter
     Print {msg: 2 * length4 }  #=> 2 meter
     Print {msg: length4 * length4 }  #=> 1 meter^2
 
-    speed as meter/sec
+    speed as a meter/sec
     speed := 1 meter/sec
     Print {msg: speed } #=> 1 meter / sec
     Print {msg: speed * 4_sec } #=> 4 meter
@@ -408,11 +408,11 @@ All elements of the set need to be defined
 Note: Working on how to do this based on a "Comparable" type. Perhaps it could be done based
 on operator definitions?
 
-    Min <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
-    Max <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
-    Sum <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
-    Prod <= `{_item1 as Numeric, _item2 as Numeric} -> Numeric`
-    Print <= `{msg as String}->None`
+    Min <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
+    Max <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
+    Sum <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
+    Prod <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
+    Print <= `{msg as a String}->None` # Returning None indicates that this is not a pure function and cannot be cached
 
 #### Functional
 
