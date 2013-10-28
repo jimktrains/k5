@@ -199,25 +199,23 @@ Note that we could do sums this way too (instead of a fold). This gains us the a
 
 One possible path of reduction could be
 
-    1         2        3         4         5
-     \       /          \       /         /
-      \     /            \     /         /
-       \   /              \   /         /
-        sum(1,2)->3        sum(3,4)->7 /
-         \                  \         /
-          \                  \       /
-           \                  \     /
-            \                  \   /
-             \                  sum(7,5) -> 12
-              \                 /
-               \               /
-                \             /
-                 \           /
-                  \         /
-                   \       /
-                    \     /
-                     \   /
-                      sum(3,12)->15
+    1         2        3         4        5
+    \         \       /          \       /
+     \         \     /            \     /
+      \         sum(2,3)->5        sum(4,5)->9
+       \          /                 /
+        \        /                 /
+         \      /                 /
+          \    /                 /
+           sum(1,5)->6          /
+              \                /
+               \              /
+                \            /
+                 \          /
+                  \        /
+                   \      /
+                    \    /
+                     sum(6,9)->15
 
 Since we can curry, we can do things like
 
