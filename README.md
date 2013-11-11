@@ -435,3 +435,23 @@ Wrapper around `Filter`
 
     Reject <= `{list => @x[], by => `{_item as @x } -> Bool`} -> @x[]`
 
+## Exceptions
+
+Exceptions can be raised when exceptional things happen.  A simple example to illustrate the syntax is:
+
+    double_it <= `{_item1 as a Integer} -> _ret as a Integer`!ArgumentException:
+        If {:
+            Test => _item1 = 2
+            Then => raise { ex => ArgumentException { msg <= "I don't like 2s!" }}
+            Else => _ret <= 2 * _item1
+
+All Exceptions must be handled or at least acknowledged. `Print`, as a language construct is the only exception.
+
+    Unsafe {:
+        action => double_it {_item1 => _item1} 
+        catch => [:
+            {:
+                type => ArgumentException
+                action => Print { msg => _ex }
+
+Ed Note: I'm not sure how I feel about this
