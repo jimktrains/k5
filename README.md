@@ -34,6 +34,8 @@ and
 Functions
 ---------
 
+Functions are (normally) pure functions meaning that their outputs can be cached based on their output. Any function that returns None is marked as non-pure.  [Ed note: I need a way to mark functions as non-pure besides that.]
+
 To define a function a signature and body are given (It can optionally be assigned to a variable)
 
     Born <= `{fname as String, lname as String} -> new_person as Person`:
