@@ -1,0 +1,34 @@
+array <= [ 4,3,2,6,7,1,9,7]
+
+
+Split <= `_item1 as Array<@x> -> {_ret1 as Array<@x>, _ret2 as Array<@y>}`:
+    iHalf <= Round.Down { _item1 <= Len(_item1)/2 }
+    _ret1 <= _item1[0 ++ iHalf]
+    _ret2 <= _item1[iHalf .. ]
+
+Merge <= `{_item1 as Array<Int>, _item2 as Array<Int>} -> _ret as Array<Int>`:
+
+    If {:
+        Test => Len(_item1) = 1
+        Then => :
+            If {:
+                Test => Len(_item2) = 1
+                Then => If {:
+                    Test => _item1[0] =< _item2[0]
+                    Then => _ret <= _item1 << _item2
+                    Else => _ret <= _item2 << _item1
+                Else:
+                    _ret <= Merge {:
+                         _ret1;_item1, _ret2;_item2 <= Split { _item1 <= _item1 << _item2 }
+    
+    _item1merged <=
+
+    i1_half <= Round { _item => Len(_item1) / 2, _method => Round.Down }
+    item1_merged <= Merge {:
+        _item1 => _item1[0:i1_half]
+        _item2 => _item2[i1_half + 1:]
+
+    While {:
+        Test => i1 < Len(_item1) And i2 < Len(_item2)
+        Do => :
+            
