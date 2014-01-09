@@ -122,7 +122,7 @@ Maps may be parallelized. Note the short form of the lambda; this can be used fo
         list => [1..5]
         over => add_two {n: _item}
 
-If we make the param for add_two \_item1, then we could do:
+If we make the param for add_two \_item, then we could do:
  
     two_to_seven <= Map {:
         list => [1..5]
@@ -150,10 +150,10 @@ Long form lambda:
 
     one <= Reduce {:
         list => [1..5]
-        by => `{_item1 as a Integer, _item2 as a Integer} -> _ret as Integer`:
+        by => `{_item as a Integer, _item2 as a Integer} -> _ret as Integer`:
             _ret <= If {:
-                test => _item1 < _item2
-                then => _item1
+                test => _item < _item2
+                then => _item
                 else => _item2
 
 Short form lambda (since it's a single expression)
@@ -161,8 +161,8 @@ Short form lambda (since it's a single expression)
     one <= Reduce {:
         list => [1..5]
         by => If {:
-                test => _item1 < _item2
-                then => _item1
+                test => _item < _item2
+                then => _item
                 else => _item2
 
 Or use the built-in min function
@@ -411,10 +411,10 @@ All elements of the set need to be defined
 Note: Working on how to do this based on a "Comparable" type. Perhaps it could be done based
 on operator definitions?
 
-    Min <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
-    Max <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
-    Sum <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
-    Prod <= `{_item1 as a Numeric, _item2 as a Numeric} -> Numeric`
+    Min <= `{_item as a Numeric, _item2 as a Numeric} -> Numeric`
+    Max <= `{_item as a Numeric, _item2 as a Numeric} -> Numeric`
+    Sum <= `{_item as a Numeric, _item2 as a Numeric} -> Numeric`
+    Prod <= `{_item as a Numeric, _item2 as a Numeric} -> Numeric`
     Print <= `{msg as a String}->None` # Returning None indicates that this is not a pure function and cannot be cached
 
 #### Functional
@@ -424,7 +424,7 @@ The @ before an identifier represents that the identifier is an unknown type.  E
     Foldl <= `{list => @x[], init => @y, over => `{_item as @x, _accum as @y} -> @y` } -> @y`
     Foldr <= `{list => @x[], init => @y, over => `{_item as @x, _accum as @y} -> @y` } -> @y`
     Map <= `{list => @x[], over => `{_item as @x } -> @y` } -> @y[]`
-    Reduce <= `{list => @x[], by => `{_item1 as @x, _item2 as @x } -> @x` } -> @x `
+    Reduce <= `{list => @x[], by => `{_item as @x, _item2 as @x } -> @x` } -> @x `
     Filter <= `{list => @x[], by => `{_item as @x } -> Bool`} -> @x[]`
 
 Some derived functions
@@ -441,16 +441,16 @@ Wrapper around `Filter`
 
 Exceptions can be raised when exceptional things happen.  A simple example to illustrate the syntax is:
 
-    double_it <= `{_item1 as a Integer} -> _ret as a Integer`!ArgumentException:
+    double_it <= `{_item as a Integer} -> _ret as a Integer`!ArgumentException:
         If {:
-            Test => _item1 = 2
+            Test => _item = 2
             Then => raise { ex => ArgumentException { msg <= "I don't like 2s!" }}
-            Else => _ret <= 2 * _item1
+            Else => _ret <= 2 * _item
 
 All Exceptions must be handled or at least acknowledged. `Print`, as a language construct is the only exception.
 
     Unsafe {:
-        action => double_it {_item1 => _item1} 
+        action => double_it
         catch => [:
             {:
                 type => ArgumentException

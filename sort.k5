@@ -1,3 +1,4 @@
+# Merge sort example
 Merge <= `{_item1 as Array<@x>, _item2 as Array<@x>} -> _ret as Array<@x>`:
     SortedAndRemaining as {sorted as Array<@x>, items as Array<@x>}
     sorted;_ret, items;_ <= Fold {:
@@ -18,7 +19,7 @@ Merge <= `{_item1 as Array<@x>, _item2 as Array<@x>} -> _ret as Array<@x>`:
                 _
 sorted <= Reduce { list <= [4,3,2,6,7,1,9,7], by <= Merge }
 
-
+# Insertion sort
 sorted1 <= Fold {:
     list <= [4,3,2,6,7,1,9,7]
     init <= []
