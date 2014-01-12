@@ -6,16 +6,17 @@ Merge <= `{_item1 as Array<@x>, _item2 as Array<@x>} -> _ret as Array<@x>`:
         init <= { items <= [], sorted <= []
         over <= `{_acc as SortedAndRemaining, _item as @a, } -> _ret as SortedAndRemaining`:
             curItem <= _item
+            _filtered;filtered, _rest;remItems <= FilterAndRest {:
+                list <= _ret.items
+                by <= LessThanOrEqual { _item2 <= curItem }
             sorted <= Concat {:
                 _item <= _ret.sorted
                 _item2 <= Concat {:
-                    _item <= Filter {:
-                        list <= _ret.items
-                        by <= LessThanOrEqual { _item2 <= curItem }
+                    _item <= filtered
                     _item2 <= curItem
             _ret <= {:
                 sorted <= sorted
-                items <= _ret.items - sorted
+                items <= remItems
 sorted <= Reduce { list <= [4,3,2,6,7,1,9,7], by <= Merge }
 
 # Insertion sort
@@ -24,11 +25,11 @@ sorted1 <= Fold {:
     init <= []
     by <= `{_acc as Array<@x>, _item as @x} -> _ret as Array<@x>`:
         curItem <= _item
-        lessthan <= Filter {:
+        _filtered;lessthan, _rest;remItems <= FilterAndRest {:
             list <= _acc
             by <= LessThanOrEqual { _item2 <= curItem }
         _ret <= Concat {:
             _item <= lessthan
             _item2 <= Concat {:
                 _item <= curItem
-                _item2 <= _acc - lessthan
+                _item2 <= remItems
